@@ -8,7 +8,7 @@ from PIL import Image
 from io import BytesIO
 
 print("Loading Model v1")
-model = keras.models.load_model('saved_model/v1')
+model = keras.models.load_model('saved_model/1')
 
 consumer = KafkaConsumer("ml-inc-model-train", bootstrap_servers=[
                          'localhost:9092'], value_deserializer=lambda x: loads(x.decode('utf-8')))
@@ -42,7 +42,7 @@ for message in consumer:
         X=np.array(X)
         Y=np.array(Y)
         if count%(BATCH_SIZE*2) ==0:
-            model.save('saved_model/v2')
+            model.save('saved_model/2')
             print("Model Saved")
         X=[]
         Y=[]

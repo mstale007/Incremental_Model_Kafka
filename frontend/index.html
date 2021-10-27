@@ -3,7 +3,7 @@
 <head>
     <script>
         async function predict() {
-            data={}
+            data = {}
             data["fixed.acidity"] = document.getElementById('op.fixed.acidity').innerHTML;
             data["volatile.acidity"] = document.getElementById('op.volatile.acidity').innerHTML;
             data["citric.acid"] = document.getElementById('op.citric.acid').innerHTML;
@@ -16,21 +16,21 @@
             data["sulphates"] = document.getElementById('op.sulphates').innerHTML;
             data["alcohol"] = document.getElementById('op.alcohol').innerHTML;
 
-            const location = window.location.hostname;
             const settings = {
                 method: 'POST',
-                body:JSON.stringify(data)
+                body: JSON.stringify(data)
             };
-            console.log(data)
 
-            await fetch('http://localhost:5000/predict',settings).then(function (response) {
-                console.log("Response: ", response)
-            })
+            await fetch("http://localhost:5000/predict", settings).then(response => response.json()).then(
+                function (response) {
+                    console.log("Response: ", response)
+                    document.getElementById("prediction").innerHTML = response.prediction;
+                })
         }
 
         async function annotate() {
 
-            data={}
+            data = {}
             data["fixed.acidity"] = document.getElementById('op.annotate.fixed.acidity').innerHTML;
             data["volatile.acidity"] = document.getElementById('op.annotate.volatile.acidity').innerHTML;
             data["citric.acid"] = document.getElementById('op.annotate.citric.acid').innerHTML;
@@ -47,17 +47,17 @@
             const location = window.location.hostname;
             const settings = {
                 method: 'POST',
-                body:JSON.stringify(data)
+                body: JSON.stringify(data)
             };
             console.log(data)
 
-            await fetch("http://localhost:5000/annotate",settings).then(function (response) {
+            await fetch("http://localhost:5000/annotate", settings).then(function (response) {
                 console.log("Response: ", response.json)
-                if (response.text=="Got it"){
-                    document.getElementById("annotate.status").innerHTML="Added!!";
+                if (response.text == "Got it") {
+                    document.getElementById("annotate.status").innerHTML = "Added!!";
                     setTimeout(function () {
-                        document.getElementById("annotate.status").innerHTML="";
-                    },2000)
+                        document.getElementById("annotate.status").innerHTML = "";
+                    }, 2000)
                 }
             })
         }
@@ -65,7 +65,10 @@
 </head>
 
 <body>
-    <div style="width: 100%; text-align: center;"><h1>The Grand Wine Dataset!</h1><h4>A Mircroservice architecture Using Kafka, Flask, Tensorflow and Docker</h4></div>
+    <div style="width: 100%; text-align: center;">
+        <h1>The Grand Wine Dataset!</h1>
+        <h4>A Mircroservice architecture Using Kafka, Flask, Tensorflow and Docker</h4>
+    </div>
     <span style="width: 100%; display: flex; justify-content: space-around;">
         <div style="height: 50%; justify-content: center; text-align: center;">
             <div style="margin: 30px;">Predict</div>

@@ -55,4 +55,4 @@ model.compile(optimizer=OPTIMIZER, loss=LOSS, metrics=METRICS)
 model.fit(x_train_df,y_train_df,epochs=EPOCHS)
 print("Evaluation: ", model.evaluate(x_test_df,y_test_df))
 
-model.save("saved_model/v1")
+model.save("saved_model/1")
