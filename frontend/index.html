@@ -1,0 +1,249 @@
+<html>
+
+<head>
+    <script>
+        async function predict() {
+            data={}
+            data["fixed.acidity"] = document.getElementById('op.fixed.acidity').innerHTML;
+            data["volatile.acidity"] = document.getElementById('op.volatile.acidity').innerHTML;
+            data["citric.acid"] = document.getElementById('op.citric.acid').innerHTML;
+            data["residual.sugar"] = document.getElementById('op.residual.sugar').innerHTML;
+            data["chlorides"] = document.getElementById('op.chlorides').innerHTML;
+            data["free.sulfur.dioxide"] = document.getElementById('op.free.sulfur.dioxide').innerHTML;
+            data["total.sulfur.dioxide"] = document.getElementById('op.total.sulfur.dioxide').innerHTML;
+            data["density"] = document.getElementById('op.density').innerHTML;
+            data["pH"] = document.getElementById('op.pH').innerHTML;
+            data["sulphates"] = document.getElementById('op.sulphates').innerHTML;
+            data["alcohol"] = document.getElementById('op.alcohol').innerHTML;
+
+            const location = window.location.hostname;
+            const settings = {
+                method: 'POST',
+                body:JSON.stringify(data)
+            };
+            console.log(data)
+
+            await fetch('http://localhost:5000/predict',settings).then(function (response) {
+                console.log("Response: ", response)
+            })
+        }
+
+        async function annotate() {
+
+            data={}
+            data["fixed.acidity"] = document.getElementById('op.annotate.fixed.acidity').innerHTML;
+            data["volatile.acidity"] = document.getElementById('op.annotate.volatile.acidity').innerHTML;
+            data["citric.acid"] = document.getElementById('op.annotate.citric.acid').innerHTML;
+            data["residual.sugar"] = document.getElementById('op.annotate.residual.sugar').innerHTML;
+            data["chlorides"] = document.getElementById('op.annotate.chlorides').innerHTML;
+            data["free.sulfur.dioxide"] = document.getElementById('op.annotate.free.sulfur.dioxide').innerHTML;
+            data["total.sulfur.dioxide"] = document.getElementById('op.annotate.total.sulfur.dioxide').innerHTML;
+            data["density"] = document.getElementById('op.annotate.density').innerHTML;
+            data["pH"] = document.getElementById('op.annotate.pH').innerHTML;
+            data["sulphates"] = document.getElementById('op.annotate.sulphates').innerHTML;
+            data["alcohol"] = document.getElementById('op.annotate.alcohol').innerHTML;
+            data["quality"] = document.getElementById('op.annotate.quality').innerHTML;
+
+            const location = window.location.hostname;
+            const settings = {
+                method: 'POST',
+                body:JSON.stringify(data)
+            };
+            console.log(data)
+
+            await fetch("http://localhost:5000/annotate",settings).then(function (response) {
+                console.log("Response: ", response.json)
+                if (response.text=="Got it"){
+                    document.getElementById("annotate.status").innerHTML="Added!!";
+                    setTimeout(function () {
+                        document.getElementById("annotate.status").innerHTML="";
+                    },2000)
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div style="width: 100%; text-align: center;"><h1>The Grand Wine Dataset!</h1><h4>A Mircroservice architecture Using Kafka, Flask, Tensorflow and Docker</h4></div>
+    <span style="width: 100%; display: flex; justify-content: space-around;">
+        <div style="height: 50%; justify-content: center; text-align: center;">
+            <div style="margin: 30px;">Predict</div>
+            <form onsubmit="predict(); return false;">
+                <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="1" max="20" value="10" class="slider" step="0.1" id="fixed.acidity"
+                            name="fixed.acidity"
+                            oninput="document.getElementById('op.fixed.acidity').innerHTML=this.value">
+                        <span id="op.fixed.acidity">10</span>
+                        <label for="fixed.acidity">fixed.acidity</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="2" value="1" class="slider" step="0.01" id="volatile.acidity"
+                            name="volatile.acidity"
+                            oninput="document.getElementById('op.volatile.acidity').innerHTML=this.value">
+                        <span id="op.volatile.acidity">1</span>
+                        <label for="volatile.acidity">volatile.acidity</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="1" value="0.5" class="slider" step="0.01" id="citric.acid"
+                            name="citric.acid" oninput="document.getElementById('op.citric.acid').innerHTML=this.value">
+                        <span id="op.citric.acid">0.5</span>
+                        <label for="citric.acid">citric.acid</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="20" value="15" class="slider" step="0.1" id="residual.sugar"
+                            name="residual.sugar"
+                            oninput="document.getElementById('op.residual.sugar').innerHTML=this.value">
+                        <span id="op.residual.sugar">15</span>
+                        <label for="residual.sugar">residual.sugar</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="1" value="0.5" class="slider" step="0.001" id="chlorides"
+                            name="chlorides" oninput="document.getElementById('op.chlorides').innerHTML=this.value">
+                        <span id="op.chlorides">0.5</span>
+                        <label for="chlorides">chlorides</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="free.sulfur.dioxide"
+                            name="free.sulfur.dioxide"
+                            oninput="document.getElementById('op.free.sulfur.dioxide').innerHTML=this.value">
+                        <span id="op.free.sulfur.dioxide">50</span>
+                        <label for="free.sulfur.dioxide">free.sulfur.dioxide</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="300" value="50" class="slider" id="total.sulfur.dioxide"
+                            name="total.sulfur.dioxide"
+                            oninput="document.getElementById('op.total.sulfur.dioxide').innerHTML=this.value">
+                        <span id="op.total.sulfur.dioxide">50</span>
+                        <label for="total.sulfur.dioxide">total.sulfur.dioxide</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0.8" max="1.1" value="1" class="slider" step="0.0001" id="density"
+                            name="density" oninput="document.getElementById('op.density').innerHTML=this.value">
+                        <span id="op.density">1</span>
+                        <label for="density">density</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="1" max="14" value="2" class="slider" step="0.01" id="pH" name="pH"
+                            oninput="document.getElementById('op.pH').innerHTML=this.value">
+                        <span id="op.pH">2</span>
+                        <label for="pH">pH</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="2" value="1" class="slider" step="0.01" id="sulphates"
+                            name="sulphates" oninput="document.getElementById('op.sulphates').innerHTML=this.value">
+                        <span id="op.sulphates">1</span>
+                        <label for="sulphates">sulphates</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="8" max="15" value="9" class="slider" step="0.1" id="alcohol"
+                            name="alcohol" oninput="document.getElementById('op.alcohol').innerHTML=this.value">
+                        <span id="op.alcohol">9</span>
+                        <label for="alcohol">alcohol</label>
+                    </div>
+                    <div style="margin: 20px; display: flex;">
+                        <div>Predicted: </div>
+                        <div id="prediction">10</div>
+                    </div>
+                </div>
+                <button style="margin: 20px;" class="submit">Predict Data</button>
+            </form>
+        </div>
+        <div style="height: 50%; justify-content: center; text-align: center;">
+            <div style="margin: 30px;">Annotate</div>
+            <form onsubmit="annotate(); return false;">
+                <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="1" max="20" value="10" class="slider" step="0.1"
+                            id="annotate.fixed.acidity" name="annotate.fixed.acidity"
+                            oninput="document.getElementById('op.annotate.fixed.acidity').innerHTML=this.value">
+                        <span id="op.annotate.fixed.acidity">10</span>
+                        <label for="annotate.fixed.acidity">fixed.acidity</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="2" value="1" class="slider" step="0.01"
+                            id="annotate.volatile.acidity" name="annotate.volatile.acidity"
+                            oninput="document.getElementById('op.annotate.volatile.acidity').innerHTML=this.value">
+                        <span id="op.annotate.volatile.acidity">1</span>
+                        <label for="annotate.volatile.acidity">volatile.acidity</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="1" value="0.5" class="slider" step="0.01"
+                            id="annotate.citric.acid" name="annotate.citric.acid"
+                            oninput="document.getElementById('op.annotate.citric.acid').innerHTML=this.value">
+                        <span id="op.annotate.citric.acid">0.5</span>
+                        <label for="annotate.citric.acid">citric.acid</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="20" value="15" class="slider" step="0.1"
+                            id="annotate.residual.sugar" name="annotate.residual.sugar"
+                            oninput="document.getElementById('op.annotate.residual.sugar').innerHTML=this.value">
+                        <span id="op.annotate.residual.sugar">15</span>
+                        <label for="annotate.residual.sugar">residual.sugar</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="1" value="0.5" class="slider" step="0.001"
+                            id="annotate.chlorides" name="annotate.chlorides"
+                            oninput="document.getElementById('op.annotate.chlorides').innerHTML=this.value">
+                        <span id="op.annotate.chlorides">0.5</span>
+                        <label for="annotate.chlorides">chlorides</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="1" max="100" value="50" class="slider"
+                            id="annotate.free.sulfur.dioxide" name="annotate.free.sulfur.dioxide"
+                            oninput="document.getElementById('op.annotate.free.sulfur.dioxide').innerHTML=this.value">
+                        <span id="op.annotate.free.sulfur.dioxide">50</span>
+                        <label for="annotate.free.sulfur.dioxide">free.sulfur.dioxide</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="300" value="50" class="slider"
+                            id="annotate.total.sulfur.dioxide" name="annotate.total.sulfur.dioxide"
+                            oninput="document.getElementById('op.annotate.total.sulfur.dioxide').innerHTML=this.value">
+                        <span id="op.annotate.total.sulfur.dioxide">50</span>
+                        <label for="annotate.total.sulfur.dioxide">total.sulfur.dioxide</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0.8" max="1.1" value="1" class="slider" step="0.0001"
+                            id="annotate.density" name="annotate.density"
+                            oninput="document.getElementById('op.annotate.density').innerHTML=this.value">
+                        <span id="op.annotate.density">1</span>
+                        <label for="annotate.density">density</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="1" max="14" value="2" class="slider" step="0.01" id="pH"
+                            name="annotate.pH" oninput="document.getElementById('op.annotate.pH').innerHTML=this.value">
+                        <span id="op.annotate.pH">2</span>
+                        <label for="annotate.pH">pH</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="0" max="2" value="1" class="slider" step="0.01" id="annotate.sulphates"
+                            name="annotate.sulphates"
+                            oninput="document.getElementById('op.annotate.sulphates').innerHTML=this.value">
+                        <span id="op.annotate.sulphates">1</span>
+                        <label for="annotate.sulphates">sulphates</label>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="8" max="15" value="9" class="slider" step="0.1" id="annotate.alcohol"
+                            name="annotate.alcohol"
+                            oninput="document.getElementById('op.annotate.alcohol').innerHTML=this.value">
+                        <span id="op.annotate.alcohol">9</span>
+                        <label for="annotate.alcohol">alcohol</label>
+                    </div>
+                    <div style="margin: 20px;">Output</div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="range" min="3" max="8" value="5" class="slider" id="annotate.quality"
+                            name="annotate.quality"
+                            oninput="document.getElementById('op.annotate.quality').innerHTML=this.value">
+                        <span id="op.annotate.quality">5</span>
+                        <label for="annotate.quality">quality</label>
+                    </div>
+                    <div id="annotate.status">Added!</div>
+                </div>
+                <button style="margin: 20px;" class="submit">Add Data</button>
+            </form>
+        </div>
+    </span>
+</body>
+
+</html>
